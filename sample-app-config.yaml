@@ -1,0 +1,16 @@
+project: sample-nodejs-webapp
+description: A sample web application
+appSpec:
+  image: node
+  version: 18.17
+  env:
+    DB_HOST: localhost
+    DB_PORT: 5432
+    DB_NAME: postgres
+    DB_USER: postgres
+    DB_PASSWORD: mysecretpassword
+databaseSpec:
+  image: postgres
+  version: latest
+  env:
+    POSTGRES_PASSWORD: mysecretpassword
