@@ -6,11 +6,13 @@ appSpec:
   env:
     DB_HOST: localhost
     DB_PORT: 5432
-    DB_NAME: postgres
-    DB_USER: postgres
+    DB_NAME: sampledb
+    DB_USER: sampleuser
     DB_PASSWORD: mysecretpassword
 databaseSpec:
   image: postgres
-  version: latest
+  version: 15
   env:
+    POSTGRES_USER: sampleuser
     POSTGRES_PASSWORD: mysecretpassword
+    POSTGRES_DB : sampledb

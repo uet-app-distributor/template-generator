@@ -1,6 +1,8 @@
-FROM node:18.17
+FROM node:{{ version}}
 
-COPY . .
+WORKDIR /app
+
+COPY . /app
 
 RUN npm install
 
