@@ -2,7 +2,7 @@ import sys
 import yaml
 from yaml.loader import SafeLoader
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-
+from generators import dockerfile_generator
 
 TEMPLATE_DIR = 'templates'
 DOCKERFILE_TEMPLATES = {
@@ -21,25 +21,6 @@ def load_yaml_config(config_file):
   with open(config_file, 'r') as file:
     config = yaml.load(file, Loader=SafeLoader)
   return config
-
-def prepare_template_vars(runtime, config):
-  if runtime == 'node':
-    vars = {
-      'version': config['appSpec']['version']
-    }
-  return vars
-
-def save_output_to_file(output, file_name):
-  with open(file_name, "w") as file:
-    file.write(output)
-
-def generate_dockerfile(config):
-  runtime = config['appSpec']['image']
-  dockerfile_template = DOCKERFILE_TEMPLATES[runtime]
-  template = template_env.get_template(dockerfile_template)
-  template_vars = prepare_template_vars(runtime, config)
-  dockerfile = template.render(template_vars)
-  save_output_to_file(dockerfile, f"{config['project']}-app-dockerfile")
   
 
 def main():
