@@ -1,3 +1,6 @@
+from jinja2 import Environment, FileSystemLoader, select_autoescape
+
+TEMPLATE_DIR = 'templates'
 DOCKERFILE_TEMPLATES = {
     'node': "nodejs-dockerfile.j2"
 }
@@ -16,7 +19,7 @@ def save_output_to_file(output, file_name):
         file.write(output)
 
 
-def generate_dockerfile(config, template_env):
+def generate_app_manifest(config, template_env):
     runtime = config['appSpec']['image']
     dockerfile_template = DOCKERFILE_TEMPLATES[runtime]
     template = template_env.get_template(dockerfile_template)
