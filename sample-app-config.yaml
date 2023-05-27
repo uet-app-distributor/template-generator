@@ -2,7 +2,7 @@ project: sample-nodejs-webapp
 description: A sample web application
 appSpec:
   image: node
-  version: 18.17
+  version: 18
   env:
     DB_HOST: localhost
     DB_PORT: 5432
@@ -15,4 +15,4 @@ databaseSpec:
   env:
     POSTGRES_USER: sampleuser
     POSTGRES_PASSWORD: mysecretpassword
-    POSTGRES_DB : sampledb
+    POSTGRES_DB: sampledb
