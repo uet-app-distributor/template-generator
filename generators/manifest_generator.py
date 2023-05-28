@@ -1,17 +1,20 @@
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
-TEMPLATE_DIR = 'templates'
-DOCKERFILE_TEMPLATES = {
-    'node': "nodejs-dockerfile.j2"
-}
 
-
-def prepare_template_vars(runtime, config):
-    if runtime == 'node':
-        vars = {
-            'version': config['appSpec']['version']
-        }
-    return vars
+def prepare_template_vars(config):
+    app_config = config['appSpec']
+    database_config = config['databaseSpec']
+    template_vars = {
+        'app_name': config['project'],
+        'runtime': app_config['image'],
+        'runtime_version': app_config['version'],
+        'app_vars': app_config['env'],
+        'database': database_config['image'],
+        'database_version': database_config['version'],
+        'db_vars': database_config['env']
+    }
+    print(template_vars)
+    return template_vars
 
 
 def save_output_to_file(output, file_name):
@@ -20,9 +23,7 @@ def save_output_to_file(output, file_name):
 
 
 def generate_app_manifest(config, template_env):
-    runtime = config['appSpec']['image']
-    dockerfile_template = DOCKERFILE_TEMPLATES[runtime]
-    template = template_env.get_template(dockerfile_template)
-    template_vars = prepare_template_vars(runtime, config)
-    dockerfile = template.render(template_vars)
-    save_output_to_file(dockerfile, f"{config['project']}-app-dockerfile")
+    template = template_env.get_template('app-manifest.j2')
+    template_vars = prepare_template_vars(config)
+    manifest = template.render(template_vars)
+    save_output_to_file(manifest, f"{config['project']}-app-manifest")

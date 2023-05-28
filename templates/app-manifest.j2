@@ -21,17 +21,17 @@ spec:
       - name: {{ app_name }}
         image: {{ runtime }}:{{ runtime_version }}
         env:
-{% for app_var in app_vars %}
+{%- for app_var in app_vars %}
         - name: {{ app_var.name | upper }}
-          value: {{ app_var.value }}
-{% endfor %}
+          value: '{{ app_var.value }}'
+{%- endfor %}
       - name: {{ database }}
         image: {{ database }}:{{ database_version }}
         env:
-{% for db_var in db_vars %}
+{%- for db_var in db_vars %}
         - name: {{ db_var.name | upper }}
-          value: {{ db_var.value }}
-{% endfor %}
+          value: '{{ db_var.value }}'
+{%- endfor %}
         volumeMounts:
           - name: postgres-data
             mountPath: /var/lib/postgresql/data

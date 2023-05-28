@@ -4,15 +4,23 @@ appSpec:
   image: node
   version: 18
   env:
-    DB_HOST: localhost
-    DB_PORT: 5432
-    DB_NAME: sampledb
-    DB_USER: sampleuser
-    DB_PASSWORD: mysecretpassword
+    - name: DB_HOST
+      value: localhost
+    - name: DB_PORT
+      value: 5432
+    - name: DB_NAME
+      value: sampledb
+    - name: DB_USER
+      value: sampleuser
+    - name: DB_PASSWORD
+      value: mysecretpassword
 databaseSpec:
   image: postgres
   version: 15
   env:
-    POSTGRES_USER: sampleuser
-    POSTGRES_PASSWORD: mysecretpassword
-    POSTGRES_DB: sampledb
+    - name: POSTGRES_USER
+      value: sampleuser
+    - name: POSTGRES_PASSWORD
+      value: mysecretpassword
+    - name: POSTGRES_DB
+      value: sampledb

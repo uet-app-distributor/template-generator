@@ -1,7 +1,7 @@
 import sys
 import yaml
 from yaml.loader import SafeLoader
-from generators import dockerfile_generator
+from generators import dockerfile_generator, manifest_generator
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 TEMPLATE_DIR = 'templates'
@@ -29,3 +29,4 @@ if __name__ == "__main__":
         config = load_yaml_config(sys.argv[1])
         template_env = prepare_template_environment()
         dockerfile_generator.generate_dockerfile(config, template_env)
+        manifest_generator.generate_app_manifest(config, template_env)
