@@ -22,8 +22,8 @@ def save_output_to_file(output, file_name):
         file.write(output)
 
 
-def generate_app_manifest(config, template_env):
-    template = template_env.get_template('app-manifest.j2')
+def generate_manifest(config, template_env, template_file, suffix):
+    template = template_env.get_template(template_file)
     template_vars = prepare_template_vars(config)
     manifest = template.render(template_vars)
-    save_output_to_file(manifest, f"{config['project']}-app-manifest")
+    save_output_to_file(manifest, f"{config['project']}-{suffix}")

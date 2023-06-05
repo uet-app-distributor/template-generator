@@ -4,6 +4,8 @@ appSpec:
   image: node
   version: 18
   env:
+    - name: APP_PORT
+      value: 3000
     - name: DB_HOST
       value: localhost
     - name: DB_PORT
