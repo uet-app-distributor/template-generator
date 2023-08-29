@@ -1,0 +1,37 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  namespace: uet-app-distributor
+  name: create-db-user-job
+spec:
+  ttlSecondsAfterFinished: 100
+  backoffLimit: 1
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - image: thainm/create-db-user-job:latest
+          imagePullPolicy: Always
+          name: create-db-user
+          env:
+            - name: DB_NAME
+              value: uet_app_distributor
+            - name: DB_HOST
+              value: uad-postgres-cluster
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_NEW_USER
+              value: test
+            - name: DB_NEW_USER_PASSWORD
+              value: test@1234
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: distributor.uad-postgres-cluster.credentials.postgresql.acid.zalan.do
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: distributor.uad-postgres-cluster.credentials.postgresql.acid.zalan.do
+                  key: password
+
