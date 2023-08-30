@@ -1,6 +1,6 @@
 from generators.utils import save_output_to_file
 
-from settings import DOCKERFILE_TEMPLATES
+from settings import DOCKERFILE_TEMPLATES, CUSTOMER_APP_DOCKERFILE
 
 
 class DockerfileGenerator:
@@ -17,4 +17,4 @@ class DockerfileGenerator:
         template = self.template_env.get_template(DOCKERFILE_TEMPLATES[runtime])
         template_args = self._prepare_template_args()
         dockerfile = template.render(template_args)
-        save_output_to_file(dockerfile, f"{self.app_config['project']}-dockerfile")
+        save_output_to_file(dockerfile, CUSTOMER_APP_DOCKERFILE)
