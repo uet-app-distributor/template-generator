@@ -1,25 +1,20 @@
-DOCKERFILE_TEMPLATES = {
-    'node': "nodejs-dockerfile.j2"
-}
+from generators.utils import save_output_to_file
+
+from settings import DOCKERFILE_TEMPLATES, CUSTOMER_APP_DOCKERFILE
 
 
-def prepare_template_vars(runtime, config):
-    if runtime == 'node':
-        vars = {
-            'version': config['appSpec']['version']
-        }
-    return vars
+class DockerfileGenerator:
+    def __init__(self, template_env, app_config):
+        self.template_env = template_env
+        self.app_config = app_config
 
+    def _prepare_template_args(self):
+        template_args = {"version": self.app_config["backend"]["version"]}
+        return template_args
 
-def save_output_to_file(output, file_name):
-    with open(file_name, "w") as file:
-        file.write(output)
-
-
-def generate_dockerfile(config, template_env):
-    runtime = config['appSpec']['image']
-    dockerfile_template = DOCKERFILE_TEMPLATES[runtime]
-    template = template_env.get_template(dockerfile_template)
-    template_vars = prepare_template_vars(runtime, config)
-    dockerfile = template.render(template_vars)
-    save_output_to_file(dockerfile, f"{config['project']}-app-dockerfile")
+    def generate(self):
+        runtime = self.app_config["backend"]["image"]
+        template = self.template_env.get_template(DOCKERFILE_TEMPLATES[runtime])
+        template_args = self._prepare_template_args()
+        dockerfile = template.render(template_args)
+        save_output_to_file(dockerfile, CUSTOMER_APP_DOCKERFILE)

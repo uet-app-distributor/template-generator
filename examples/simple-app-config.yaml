@@ -1,0 +1,11 @@
+---
+project: sample-nodejs-webapp
+description: A sample web application
+frontend:
+  image: node
+  version: 16
+backend:
+  image: node
+  version: 16
+database:
+  image: postgres
