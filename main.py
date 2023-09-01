@@ -3,7 +3,7 @@ import yaml
 import logging
 
 from yaml.loader import SafeLoader
-from generators.dockerfile_generator import DockerfileGenerator
+from modules.generators import TemplateGenerator
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from settings import TEMPLATE_DIR, DEPLOYMENT_TEMPLATE, NODEPORT_TEMPLATE
 
@@ -23,4 +23,7 @@ def prepare_template_environment():
 if __name__ == "__main__":
     app_config = load_yaml_config(sys.argv[1])
     template_env = prepare_template_environment()
-    DockerfileGenerator(template_env, app_config).generate()
+    generator = TemplateGenerator(template_env, app_config)
+
+    generator.generate_dockerfile()
+    generator.generate_create_db_user_job()

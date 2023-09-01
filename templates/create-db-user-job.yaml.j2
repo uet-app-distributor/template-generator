@@ -21,9 +21,9 @@ spec:
             - name: DB_PORT
               value: "5432"
             - name: DB_NEW_USER
-              value: test
+              value: {{ db_new_user }}
             - name: DB_NEW_USER_PASSWORD
-              value: test@1234
+              value: {{ db_new_user_password }}
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
