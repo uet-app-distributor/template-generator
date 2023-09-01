@@ -20,8 +20,8 @@ class TemplateGenerator:
             }
         elif template_type == TYPE_K8S_JOB:
             template_args = {
-                "db_new_user": self.app_config["owner"],
-                "db_new_user_password": self.app_config["owner"],
+                "db_new_user": self.app_config["app_owner"],
+                "db_new_user_password": self.app_config["app_owner"],
             }
         else:
             raise ValueError("Invalid template_type")
