@@ -17,3 +17,14 @@ spec:
       containers:
       - name: {{ app_name }}
         image: {{ registry_user }}/{{ app_name }}:latest
+        env:
+          - name: DB_NAME
+            value: {{ app_owner }}
+          - name: DB_HOST
+            value: uad-postgres-cluster.uet-app-distributor.svc.cluster.local
+          - name: DB_PORT
+            value: "5432"
+          - name: DB_USER
+            value: {{ app_owner }}
+          - name: DB_PASSWORD
+            value: {{ app_owner }}

@@ -25,7 +25,8 @@ class TemplateGenerator:
         elif template == DEPLOYMENT_TEMPLATE:
             return {
                 "registry_user": IMAGE_REGISTRY_USER,
-                "app_name": self.app_config["app_name"] 
+                "app_name": self.app_config["app_name"],
+                "app_owner": self.app_config["app_owner"]
             }
         else:
             raise ValueError("Invalid template_type")
