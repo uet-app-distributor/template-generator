@@ -1,42 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
   labels:
-    app: {{ app_name }}
+    customer_app: {{ app_name }}
   name: {{ app_name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ app_name }}
-  strategy: {}
+      customer_app: {{ app_name }}
   template:
     metadata:
-      creationTimestamp: null
       labels:
-        app: {{ app_name }}
+        customer_app: {{ app_name }}
     spec:
       containers:
       - name: {{ app_name }}
         image: {{ runtime }}:{{ runtime_version }}
-        env:
-{%- for app_var in app_vars %}
-        - name: {{ app_var.name | upper }}
-          value: '{{ app_var.value }}'
-{%- endfor %}
-      - name: {{ database }}
-        image: {{ database }}:{{ database_version }}
-        env:
-{%- for db_var in db_vars %}
-        - name: {{ db_var.name | upper }}
-          value: '{{ db_var.value }}'
-{%- endfor %}
-        volumeMounts:
-          - name: postgres-data
-            mountPath: /var/lib/postgresql/data
-      volumes:
-        - name: postgres-data
-          hostPath:
-            path: /postgres-data
-status: {}
