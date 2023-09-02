@@ -1,9 +1,7 @@
 from settings import (
+    DEPLOYMENT_TEMPLATE,
     DOCKERFILE_TEMPLATES,
     CREATE_DB_USER_JOB_TEMPLATE,
-    TYPE_DOCKERFILE,
-    TYPE_K8S_JOB,
-    TYPE_K8S_MANIFEST,
 )
 
 
@@ -12,13 +10,13 @@ class TemplateGenerator:
         self.template_env = template_env
         self.app_config = app_config
 
-    def _prepare_template_args(self, template_type):
-        if template_type == TYPE_DOCKERFILE:
+    def _prepare_template_args(self, template):
+        if template_type == DOCKERFILE_TEMPLATES:
             template_args = {
                 "runtime": self.app_config["backend"]["image"],
                 "version": self.app_config["backend"]["version"],
             }
-        elif template_type == TYPE_K8S_JOB:
+        elif template_type == CREATE_DB_USER_JOB_TEMPLATE:
             template_args = {
                 "db_new_user": self.app_config["app_owner"],
                 "db_new_user_password": self.app_config["app_owner"],
@@ -43,3 +41,9 @@ class TemplateGenerator:
         template_args = self._prepare_template_args(TYPE_K8S_JOB)
         job = template.render(template_args)
         self._save_output_to_file(job, "create-db-user-job.yaml")
+    
+    def generate_manifest(self):
+        template = self.template_env.get_template(DEPLOYMENT_TEMPLATE)
+        template_args = self._prepare_template_args(DEPLOYMENT_TEMPLATE)
+        manifest = template.render(template_args)
+        self._save_output_to_file(manifest, "customer-app-deployment.yaml")
