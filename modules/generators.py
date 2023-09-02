@@ -2,6 +2,7 @@ from settings import (
     DEPLOYMENT_TEMPLATE,
     DOCKERFILE_TEMPLATES,
     CREATE_DB_USER_JOB_TEMPLATE,
+    IMAGE_REGISTRY_USER
 )
 
 
@@ -22,7 +23,10 @@ class TemplateGenerator:
                 "db_new_user_password": self.app_config["app_owner"],
             }
         elif template == DEPLOYMENT_TEMPLATE:
-            return { "app_name": self.app_config["app_name"] }
+            return {
+                "registry_user": IMAGE_REGISTRY_USER,
+                "app_name": self.app_config["app_name"] 
+            }
         else:
             raise ValueError("Invalid template_type")
 

@@ -1,3 +1,4 @@
+IMAGE_REGISTRY_USER = "thainm"
 TEMPLATE_DIR = "templates"
 NODEPORT_TEMPLATE = "app-nodeport.yaml.j2"
 
