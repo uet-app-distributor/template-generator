@@ -1,10 +1,10 @@
 ---
-project: sample-nodejs-webapp
-owner: thainm01
+app_name: newsample02
+app_owner: thainm2
 description: A sample web application
 frontend:
   image: node
-  version: 16
+  version: 18
 backend:
   image: node
   version: 16

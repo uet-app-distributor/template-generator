@@ -27,3 +27,4 @@ if __name__ == "__main__":
 
     generator.generate_dockerfile()
     generator.generate_create_db_user_job()
+    generator.generate_manifest()

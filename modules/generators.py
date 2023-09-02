@@ -11,19 +11,24 @@ class TemplateGenerator:
         self.app_config = app_config
 
     def _prepare_template_args(self, template):
-        if template_type == DOCKERFILE_TEMPLATES:
-            template_args = {
+        if template in DOCKERFILE_TEMPLATES:
+            return {
                 "runtime": self.app_config["backend"]["image"],
                 "version": self.app_config["backend"]["version"],
             }
-        elif template_type == CREATE_DB_USER_JOB_TEMPLATE:
-            template_args = {
+        elif template == CREATE_DB_USER_JOB_TEMPLATE:
+            return {
                 "db_new_user": self.app_config["app_owner"],
                 "db_new_user_password": self.app_config["app_owner"],
             }
+        elif template == DEPLOYMENT_TEMPLATE:
+            return {
+                'app_name': self.app_config['app_name'],
+                "runtime": self.app_config["backend"]["image"],
+                'runtime_version': self.app_config['backend']['version'],
+            }
         else:
             raise ValueError("Invalid template_type")
-        return template_args
 
     def _save_output_to_file(self, output, file_name):
         with open(file_name, "w") as file:
@@ -32,13 +37,13 @@ class TemplateGenerator:
     def generate_dockerfile(self):
         runtime = self.app_config["backend"]["image"]
         template = self.template_env.get_template(DOCKERFILE_TEMPLATES[runtime])
-        template_args = self._prepare_template_args(TYPE_DOCKERFILE)
+        template_args = self._prepare_template_args(runtime)
         dockerfile = template.render(template_args)
         self._save_output_to_file(dockerfile, "customer-app-dockerfile")
 
     def generate_create_db_user_job(self):
         template = self.template_env.get_template(CREATE_DB_USER_JOB_TEMPLATE)
-        template_args = self._prepare_template_args(TYPE_K8S_JOB)
+        template_args = self._prepare_template_args(CREATE_DB_USER_JOB_TEMPLATE)
         job = template.render(template_args)
         self._save_output_to_file(job, "create-db-user-job.yaml")
     
