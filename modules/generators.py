@@ -22,11 +22,7 @@ class TemplateGenerator:
                 "db_new_user_password": self.app_config["app_owner"],
             }
         elif template == DEPLOYMENT_TEMPLATE:
-            return {
-                'app_name': self.app_config['app_name'],
-                "runtime": self.app_config["backend"]["image"],
-                'runtime_version': self.app_config['backend']['version'],
-            }
+            return { "app_name": self.app_config["app_name"] }
         else:
             raise ValueError("Invalid template_type")
 
