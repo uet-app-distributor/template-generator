@@ -2,15 +2,15 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   namespace: uet-app-distributor
-  name: create-db-user-job-{{ db_new_user }}
+  name: customer-app-initial-job-{{ db_new_user }}
 spec:
   ttlSecondsAfterFinished: 60
-  backoffLimit: 1
+  backoffLimit: 2
   template:
     spec:
       restartPolicy: Never
       containers:
-        - image: thainm/create-db-user-job:latest
+        - image: {{ registry_user }}/customer-app-initial-job:latest
           imagePullPolicy: Always
           name: create-db-user
           env:
@@ -24,6 +24,18 @@ spec:
               value: {{ db_new_user }}
             - name: DB_NEW_USER_PASSWORD
               value: {{ db_new_user_password }}
+            - name: CF_CUSTOMER_APP_CNAME_RECORD
+              value: {{ app_name }}
+            - name: CF_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: cloudflare-credentials
+                  key: api_key
+            - name: CF_API_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: cloudflare-credentials
+                  key: api_email
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
