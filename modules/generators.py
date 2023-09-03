@@ -2,7 +2,8 @@ from settings import (
     DEPLOYMENT_TEMPLATE,
     DOCKERFILE_TEMPLATES,
     CREATE_DB_USER_JOB_TEMPLATE,
-    IMAGE_REGISTRY_USER
+    IMAGE_REGISTRY_USER,
+    UAD_DOMAIN_NAME
 )
 
 
@@ -24,9 +25,10 @@ class TemplateGenerator:
             }
         elif template == DEPLOYMENT_TEMPLATE:
             return {
+                "uad_domain": UAD_DOMAIN_NAME,
                 "registry_user": IMAGE_REGISTRY_USER,
                 "app_name": self.app_config["app_name"],
-                "app_owner": self.app_config["app_owner"]
+                "app_owner": self.app_config["app_owner"],
             }
         else:
             raise ValueError("Invalid template_type")
