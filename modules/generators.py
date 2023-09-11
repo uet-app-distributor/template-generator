@@ -48,6 +48,7 @@ class TemplateGenerator:
             }
         elif template == FE_MANIFEST_TEMPLATE:
             return {
+                "uad_domain": UAD_DOMAIN_NAME,
                 "registry_user": IMAGE_REGISTRY_USER,
                 "app_name": self.app_config["app_name"],
                 "app_owner": self.app_config["app_owner"],
