@@ -56,9 +56,9 @@ class TemplateGenerator:
         else:
             raise ValueError("Invalid template_type")
 
-    def _save_output_to_file(self, output, file_name):
-        with open(file_name, "w") as file:
-            file.write(output)
+    def _save_output_to_file(self, content, file_name):
+        with open(f"output-{file_name}", "w") as file:
+            file.write(content)
 
     def _generate_dockerfile(self, service_type):
         dockerfile_template = FE_DOCKERFILE_TEMPLATES if service_type == FE_SERVICE_TYPE else BE_DOCKERFILE_TEMPLATES
