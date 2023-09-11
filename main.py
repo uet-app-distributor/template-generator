@@ -26,7 +26,7 @@ if __name__ == "__main__":
     parser.add_argument("--app-config", help="App YAML configuration file")
     parser.add_argument("--output-dockerfile", help="Output name of customer app Dockerfile")
     parser.add_argument("--output-initial-job", help="Output name of customer app initial job")
-    parser.add_argument("--output-deployment", help="Output name of customer app deployment manifest file")
+    parser.add_argument("--output-manifest", help="Output name of customer app deployment manifest file")
 
     options = parser.parse_args()
 
@@ -35,10 +35,9 @@ if __name__ == "__main__":
     generator = TemplateGenerator(
         template_env,
         app_config,
-        options.output_dockerfile
+        options.output_dockerfile,
+        options.output_initial_job,
+        options.output_manifest
     )
 
     generator.generate_customer_app_files()
-    # generator.generate_dockerfile(options.output_dockerfile)
-    # generator.generate_initial_job(options.output_initial_job)
-    # generator.generate_manifest(options.output_deployment)
