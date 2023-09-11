@@ -32,8 +32,13 @@ if __name__ == "__main__":
 
     app_config = load_yaml_config(options.app_config)
     template_env = prepare_template_environment()
-    generator = TemplateGenerator(template_env, app_config)
+    generator = TemplateGenerator(
+        template_env,
+        app_config,
+        options.output_dockerfile
+    )
 
-    generator.generate_dockerfile(options.output_dockerfile)
-    generator.generate_initial_job(options.output_initial_job)
-    generator.generate_manifest(options.output_deployment)
+    generator.generate_customer_app_files()
+    # generator.generate_dockerfile(options.output_dockerfile)
+    # generator.generate_initial_job(options.output_initial_job)
+    # generator.generate_manifest(options.output_deployment)

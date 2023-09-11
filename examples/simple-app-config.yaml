@@ -5,8 +5,12 @@ description: A sample web application
 frontend:
   image: node
   version: 18
-backend:
-  image: node
-  version: 16
+  static_dir: dist
+  env:
+    API_URL: "https://uet.vn"
+    SERVICE_NAME: "frontend"
+# backend:
+#   image: node
+#   version: 16
 database:
   image: postgres
