@@ -83,6 +83,8 @@ class TemplateGenerator:
         self._save_output_to_file(manifest, f"{service_type}-{self.output_manifest}")
 
     def generate_customer_app_files(self):
+        self._generate_initial_job()
+
         if FE_SERVICE_TYPE in self.app_config:
             self._generate_dockerfile(FE_SERVICE_TYPE)
             self._generate_manifest(FE_SERVICE_TYPE)
@@ -90,4 +92,3 @@ class TemplateGenerator:
         if BE_SERVICE_TYPE in self.app_config:
             self._generate_dockerfile(BE_SERVICE_TYPE)
             self._generate_manifest(BE_SERVICE_TYPE)
-            self._generate_initial_job()
