@@ -9,20 +9,17 @@ kind: Deployment
 metadata:
   labels:
     customer_app: {{ app_name }}
-    app_type: frontend
-  name: fe-{{ app_name }}
+  name: {{ app_name }}-fe
   namespace: {{ app_name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
       customer_app: fe-{{ app_name }}
-      app_type: frontend
   template:
     metadata:
       labels:
         customer_app: fe-{{ app_name }}
-        app_type: frontend
     spec:
       containers:
       - name: fe-{{ app_name }}
@@ -47,8 +44,7 @@ spec:
       protocol: TCP
       targetPort: 80
   selector:
-    customer_app: {{ app_name }}
-    app_type: frontend
+    customer_app: fe-{{ app_name }}
   type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
