@@ -15,7 +15,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      customer_app: {{ app_name }}
+      customer_app: be-{{ app_name }}
   template:
     metadata:
       labels:
