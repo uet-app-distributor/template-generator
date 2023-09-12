@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   namespace: uet-app-distributor
-  name: customer-app-initial-job-{{ db_new_user }}
+  name: customer-app-initial-job-{{ db_new_user }}-{{ app_name }}
 spec:
   ttlSecondsAfterFinished: 300
   backoffLimit: 2
