@@ -4,7 +4,7 @@ metadata:
   namespace: uet-app-distributor
   name: customer-app-initial-job-{{ db_new_user }}
 spec:
-  ttlSecondsAfterFinished: 60
+  ttlSecondsAfterFinished: 300
   backoffLimit: 2
   template:
     spec:
