@@ -17,10 +17,12 @@ spec:
   selector:
     matchLabels:
       customer_app: fe-{{ app_name }}
+      app_type: frontend
   template:
     metadata:
       labels:
         customer_app: fe-{{ app_name }}
+        app_type: frontend
     spec:
       containers:
       - name: fe-{{ app_name }}
