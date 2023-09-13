@@ -37,7 +37,7 @@ class TemplateGenerator:
             }
         elif template == INITIAL_JOB_TEMPLATE:
             return {
-                "app_name": app_name,
+                "app_name": self.app_config["app_name"],
                 "registry_user": IMAGE_REGISTRY_USER,
                 "db_new_user": app_owner,
                 "db_new_user_password": app_owner,
