@@ -1,6 +1,6 @@
 ---
-app_name: newsample02
-app_owner: thainm2
+app_owner: thai-nm
+app_name: newsample-02
 description: A sample web application
 frontend:
   image: node

@@ -21,6 +21,9 @@ class TemplateGenerator:
         self.output_manifest = output_manifest
 
     def _prepare_template_args(self, template):
+        app_owner = self.app_config["app_owner"].replace("-", "")
+        app_name = self.app_config["app_name"].replace("-", "")
+
         if template == BE_DOCKERFILE_TEMPLATES:
             return {
                 "runtime": self.app_config["backend"]["image"],
@@ -34,24 +37,24 @@ class TemplateGenerator:
             }
         elif template == INITIAL_JOB_TEMPLATE:
             return {
-                "app_name": self.app_config["app_name"],
+                "app_name": app_name,
                 "registry_user": IMAGE_REGISTRY_USER,
-                "db_new_user": self.app_config["app_owner"],
-                "db_new_user_password": self.app_config["app_owner"],
+                "db_new_user": app_owner,
+                "db_new_user_password": app_owner,
             }
         elif template == BE_MANIFEST_TEMPLATE:
             return {
                 "uad_domain": UAD_DOMAIN_NAME,
                 "registry_user": IMAGE_REGISTRY_USER,
-                "app_name": self.app_config["app_name"],
-                "app_owner": self.app_config["app_owner"],
+                "app_name": app_name,
+                "app_owner": app_owner,
             }
         elif template == FE_MANIFEST_TEMPLATE:
             return {
                 "uad_domain": UAD_DOMAIN_NAME,
                 "registry_user": IMAGE_REGISTRY_USER,
-                "app_name": self.app_config["app_name"],
-                "app_owner": self.app_config["app_owner"],
+                "app_name": app_name,
+                "app_owner": app_owner,
                 "frontend_env_vars": self.app_config["frontend"]["env"]
             }
         else:
