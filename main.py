@@ -24,9 +24,9 @@ def prepare_template_environment():
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--app-config", help="App YAML configuration file")
-    parser.add_argument("--output-dockerfile", help="Output name of customer app Dockerfile")
-    parser.add_argument("--output-initial-job", help="Output name of customer app initial job")
-    parser.add_argument("--output-manifest", help="Output name of customer app deployment manifest file")
+    parser.add_argument("--output-dockerfile", default="dockerfile", help="Output name of customer app Dockerfile")
+    parser.add_argument("--output-initial-job", default="initial-job", help="Output name of customer app initial job")
+    parser.add_argument("--output-manifest", default="manifest", help="Output name of customer app deployment manifest file")
 
     options = parser.parse_args()
 
