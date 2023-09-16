@@ -21,9 +21,9 @@ spec:
             - name: DB_PORT
               value: "5432"
             - name: DB_NEW_USER
-              value: {{ db_new_user }}
+              value: {{ db_new_user|replace("-", "") }}
             - name: DB_NEW_USER_PASSWORD
-              value: {{ db_new_user_password }}
+              value: {{ db_new_user_password|replace("-", "") }}
             - name: CF_CUSTOMER_APP_CNAME_RECORD
               value: {{ app_name }}
             - name: CF_API_KEY

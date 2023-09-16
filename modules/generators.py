@@ -21,8 +21,8 @@ class TemplateGenerator:
         self.output_manifest = output_manifest
 
     def _prepare_template_args(self, template):
-        app_owner = self.app_config["app_owner"].replace("-", "")
-        app_name = self.app_config["app_name"].replace("-", "")
+        app_owner = self.app_config["app_owner"]
+        app_name = self.app_config["app_name"]
 
         if template == BE_DOCKERFILE_TEMPLATES:
             return {
