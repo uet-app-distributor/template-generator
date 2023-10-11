@@ -24,9 +24,26 @@ def prepare_template_environment():
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--app-config", help="App YAML configuration file")
-    parser.add_argument("--output-dockerfile", default="dockerfile", help="Output name of customer app Dockerfile")
-    parser.add_argument("--output-initial-job", default="initial-job", help="Output name of customer app initial job")
-    parser.add_argument("--output-manifest", default="manifest", help="Output name of customer app deployment manifest file")
+    parser.add_argument(
+        "--output-dockerfile",
+        default="dockerfile",
+        help="Output name of customer app Dockerfile",
+    )
+    parser.add_argument(
+        "--output-initial-job",
+        default="initial-job",
+        help="Output name of customer app initial job",
+    )
+    parser.add_argument(
+        "--output-manifest",
+        default="manifest",
+        help="Output name of customer app deployment manifest file",
+    )
+    parser.add_argument(
+        "--compose-image-suffix",
+        default="",
+        help="Suffix for image",
+    )
 
     options = parser.parse_args()
 
@@ -37,7 +54,10 @@ if __name__ == "__main__":
         app_config,
         options.output_dockerfile,
         options.output_initial_job,
-        options.output_manifest
+        options.output_manifest,
     )
 
     generator.generate_customer_app_files()
+
+    if options.compose_image_suffix:
+        generator.generate_compose_file()

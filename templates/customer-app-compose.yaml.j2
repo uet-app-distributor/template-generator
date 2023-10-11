@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  backend:
+    image: {{ registry_user }}/be-{{ app_name }}:latest
+    ports:
+      - "8080:8080"
+  frontend:
+    image: {{ registry_user }}/fe-{{ app_name }}:latest
+    ports:
+      - "80:80"
+    environment:
+      {% for key, value in env_vars.items() -%}
+      {{ key }}: {{ value }}
+      {% endfor -%}
+

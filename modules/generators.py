@@ -7,13 +7,21 @@ from settings import (
     FE_MANIFEST_TEMPLATE,
     BE_MANIFEST_TEMPLATE,
     INITIAL_JOB_TEMPLATE,
+    COMPOSE_TEMPLATE,
     IMAGE_REGISTRY_USER,
-    UAD_DOMAIN_NAME
+    UAD_DOMAIN_NAME,
 )
 
 
 class TemplateGenerator:
-    def __init__(self, template_env, app_config, output_dockerfile, output_initial_job, output_manifest):
+    def __init__(
+        self,
+        template_env,
+        app_config,
+        output_dockerfile,
+        output_initial_job,
+        output_manifest,
+    ):
         self.template_env = template_env
         self.app_config = app_config
         self.output_dockerfile = output_dockerfile
@@ -55,7 +63,13 @@ class TemplateGenerator:
                 "registry_user": IMAGE_REGISTRY_USER,
                 "app_name": app_name,
                 "app_owner": app_owner,
-                "frontend_env_vars": self.app_config["frontend"]["env"]
+                "frontend_env_vars": self.app_config["frontend"]["env"],
+            }
+        elif template == COMPOSE_TEMPLATE:
+            return {
+                "registry_user": IMAGE_REGISTRY_USER,
+                "app_name": app_name,
+                "env_vars": self.app_config["frontend"]["env"],
             }
         else:
             raise ValueError("Invalid template_type")
@@ -65,21 +79,31 @@ class TemplateGenerator:
             file.write(content)
 
     def _generate_dockerfile(self, service_type):
-        dockerfile_template = FE_DOCKERFILE_TEMPLATES if service_type == FE_SERVICE_TYPE else BE_DOCKERFILE_TEMPLATES
+        dockerfile_template = (
+            FE_DOCKERFILE_TEMPLATES
+            if service_type == FE_SERVICE_TYPE
+            else BE_DOCKERFILE_TEMPLATES
+        )
         runtime = self.app_config[service_type]["image"]
         template = self.template_env.get_template(dockerfile_template[runtime])
         template_args = self._prepare_template_args(dockerfile_template)
         dockerfile = template.render(template_args)
-        self._save_output_to_file(dockerfile, f"{service_type}-{self.output_dockerfile}")
+        self._save_output_to_file(
+            dockerfile, f"{service_type}-{self.output_dockerfile}"
+        )
 
     def _generate_initial_job(self):
         template = self.template_env.get_template(INITIAL_JOB_TEMPLATE)
         template_args = self._prepare_template_args(INITIAL_JOB_TEMPLATE)
         job = template.render(template_args)
         self._save_output_to_file(job, self.output_initial_job)
-    
+
     def _generate_manifest(self, service_type):
-        manifest_template = FE_MANIFEST_TEMPLATE if service_type == FE_SERVICE_TYPE else BE_MANIFEST_TEMPLATE
+        manifest_template = (
+            FE_MANIFEST_TEMPLATE
+            if service_type == FE_SERVICE_TYPE
+            else BE_MANIFEST_TEMPLATE
+        )
         template = self.template_env.get_template(manifest_template)
         template_args = self._prepare_template_args(manifest_template)
         manifest = template.render(template_args)
@@ -91,7 +115,13 @@ class TemplateGenerator:
         if FE_SERVICE_TYPE in self.app_config:
             self._generate_dockerfile(FE_SERVICE_TYPE)
             self._generate_manifest(FE_SERVICE_TYPE)
-        
+
         if BE_SERVICE_TYPE in self.app_config:
             self._generate_dockerfile(BE_SERVICE_TYPE)
             self._generate_manifest(BE_SERVICE_TYPE)
+
+    def generate_compose_file(self):
+        template = self.template_env.get_template(COMPOSE_TEMPLATE)
+        template_args = self._prepare_template_args(COMPOSE_TEMPLATE)
+        dockerfile = template.render(template_args)
+        self._save_output_to_file(dockerfile, "compose.yaml")
