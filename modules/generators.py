@@ -31,6 +31,9 @@ class TemplateGenerator:
     def _prepare_template_args(self, template):
         app_owner = self.app_config["app_owner"]
         app_name = self.app_config["app_name"]
+        enable_frontend = "frontend" in self.app_config
+        enable_backend = "backend" in self.app_config
+        enable_database = "database" in self.app_config
 
         if template == BE_DOCKERFILE_TEMPLATES:
             return {
@@ -68,8 +71,13 @@ class TemplateGenerator:
         elif template == COMPOSE_TEMPLATE:
             return {
                 "registry_user": IMAGE_REGISTRY_USER,
+                "enable_frontend": enable_frontend,
+                "enable_backend": enable_backend,
+                "enable_database": enable_database,
                 "app_name": app_name,
-                "env_vars": self.app_config["frontend"]["env"],
+                "app_owner": app_owner,
+                "env_vars": self.app_config["frontend"]["env"] if enable_frontend else "",
+                "database_type": self.app_config["database"]["image"] if enable_database else ""
             }
         else:
             raise ValueError("Invalid template_type")

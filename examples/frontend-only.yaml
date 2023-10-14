@@ -1,0 +1,11 @@
+---
+app_owner: thai-nm
+app_name: newsample-02
+description: A sample web application
+frontend:
+  image: node
+  version: 18
+  static_dir: dist
+  env:
+    API_URL: "https://uet.vn"
+    SERVICE_NAME: "frontend"
