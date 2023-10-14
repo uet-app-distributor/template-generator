@@ -40,9 +40,10 @@ if __name__ == "__main__":
         help="Output name of customer app deployment manifest file",
     )
     parser.add_argument(
-        "--compose-image-suffix",
-        default="",
-        help="Suffix for image",
+        "--compose",
+        type=bool,
+        choices=[True, False],
+        help="Specify generating compose.yml file",
     )
 
     options = parser.parse_args()
@@ -59,5 +60,5 @@ if __name__ == "__main__":
 
     generator.generate_customer_app_files()
 
-    if options.compose_image_suffix:
+    if options.compose:
         generator.generate_compose_file()
