@@ -8,6 +8,7 @@ UAD_DOMAIN_NAME = "uet-app-distributor.site"
 BE_DOCKERFILE_TEMPLATES = {"node": "be-nodejs-dockerfile.j2"}
 FE_DOCKERFILE_TEMPLATES = {"node": "fe-nodejs-dockerfile.j2"}
 INITIAL_JOB_TEMPLATE = "customer-app-initial-job.yaml.j2"
+COMPOSE_TEMPLATE = "customer-app-compose.yaml.j2"
 BE_MANIFEST_TEMPLATE = "be-customer-app-deployment.yaml.j2"
 FE_MANIFEST_TEMPLATE = "fe-customer-app-deployment.yaml.j2"
 

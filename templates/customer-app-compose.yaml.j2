@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  {%- if enable_frontend %}
+  frontend:
+    image: {{ registry_user }}/fe-{{ app_name }}:latest
+    ports:
+      - "80:80"
+    environment:
+      {% for key, value in env_vars.items() -%}
+      {{ key }}: {{ value }}
+      {% endfor -%}
+  {% endif %}
+
+  {%- if enable_backend %}
+  backend:
+    image: {{ registry_user }}/be-{{ app_name }}:latest
+    ports:
+      - "8080:8080"
+  {% endif %}
+
+  {%- if enable_database %}
+  {%- if database_type == "postgres" %}
+  database:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: {{ app_name }}
+      POSTGRES_USER: {{ app_owner }}
+      POSTGRES_PASSWORD: {{ app_owner }}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres:/var/lib/postgresql/data
+  {% elif database_type == "mongodb" %}
+  database:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: {{ app_owner }}
+      MONGO_INITDB_ROOT_PASSWORD: {{ app_owner }}
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo:/data/db
+  {% endif %}
+  {% endif %}

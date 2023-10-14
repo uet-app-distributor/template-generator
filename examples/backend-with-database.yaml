@@ -1,0 +1,9 @@
+---
+app_owner: thai-nm
+app_name: newsample-02
+description: A sample web application
+backend:
+  image: node
+  version: 16
+database:
+  image: postgres
