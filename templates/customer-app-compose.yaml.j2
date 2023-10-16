@@ -31,6 +31,9 @@ services:
       - "5432:5432"
     volumes:
       - postgres:/var/lib/postgresql/data
+
+volumes:
+  postgres:
   {% elif database_type == "mongodb" %}
   database:
     image: mongo:latest
@@ -41,5 +44,8 @@ services:
       - "27017:27017"
     volumes:
       - mongo:/data/db
+
+volumes:
+  mongo:
   {% endif %}
   {% endif %}
