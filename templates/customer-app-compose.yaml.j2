@@ -3,7 +3,7 @@ version: '3.8'
 services:
   {%- if enable_frontend %}
   frontend:
-    image: {{ registry_user }}/fe-{{ app_name }}:latest
+    image: {{ registry_user }}/fe-{{ app_owner }}-{{ app_name }}:latest
     ports:
       - "80:80"
     environment:
@@ -14,7 +14,7 @@ services:
 
   {%- if enable_backend %}
   backend:
-    image: {{ registry_user }}/be-{{ app_name }}:latest
+    image: {{ registry_user }}/be-{{ app_owner }}-{{ app_name }}:latest
     ports:
       - "8080:8080"
   {% endif %}
