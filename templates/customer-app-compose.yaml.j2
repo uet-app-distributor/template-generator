@@ -8,7 +8,7 @@ services:
       - 80:80
     volumes:
       - type: bind
-        source: /opt/nginx.conf
+        source: /home/ubuntu/nginx.conf
         target: /etc/nginx/nginx.conf
     networks:
       - customer_app
@@ -20,9 +20,9 @@ services:
     ports:
       - 127.0.0.1:80
     environment:
-      {% for key, value in env_vars.items() -%}
+      {%- for key, value in env_vars.items() %}
       {{ key }}: {{ value }}
-      {% endfor -%}
+      {%- endfor %}
     networks:
       - customer_app
   {% endif %}
