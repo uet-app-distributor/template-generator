@@ -1,4 +1,4 @@
-IMAGE_REGISTRY_USER = "thainm"
+IMAGE_REGISTRY_USER = "thainmtrashy"
 TEMPLATE_DIR = "templates"
 FE_SERVICE_TYPE = "frontend"
 BE_SERVICE_TYPE = "backend"

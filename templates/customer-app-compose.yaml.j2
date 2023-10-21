@@ -16,7 +16,7 @@ services:
   {% if enable_frontend -%}
   frontend:
     container_name: frontend
-    image: {{ registry_user }}/fe-{{ app_name }}:latest
+    image: {{ registry_user }}/fe-{{ app_owner }}-{{ app_name }}:latest
     ports:
       - 127.0.0.1:80
     environment:
@@ -30,7 +30,7 @@ services:
   {%- if enable_backend %}
   backend:
     container_name: backend
-    image: {{ registry_user }}/be-{{ app_name }}:latest
+    image: {{ registry_user }}/be-{{ app_owner }}-{{ app_name }}:latest
     ports:
       - 127.0.0.1:8080
     networks:
