@@ -17,8 +17,8 @@ services:
   frontend:
     container_name: frontend
     image: {{ registry_user }}/fe-{{ app_owner }}-{{ app_name }}:latest
-    ports:
-      - 127.0.0.1:80
+    expose:
+      - 80
     environment:
       {%- for key, value in env_vars.items() %}
       {{ key }}: {{ value }}
@@ -31,8 +31,8 @@ services:
   backend:
     container_name: backend
     image: {{ registry_user }}/be-{{ app_owner }}-{{ app_name }}:latest
-    ports:
-      - 127.0.0.1:8080
+    expose:
+      - 8080
     networks:
       - customer_app
   {% endif %}
@@ -47,7 +47,7 @@ services:
       POSTGRES_USER: {{ app_owner }}
       POSTGRES_PASSWORD: {{ app_owner }}
     ports:
-      - "5432:5432"
+      - 5432:5432
     volumes:
       - postgres:/var/lib/postgresql/data
     networks:
@@ -62,7 +62,7 @@ volumes:
       MONGO_INITDB_ROOT_USERNAME: {{ app_owner }}
       MONGO_INITDB_ROOT_PASSWORD: {{ app_owner }}
     ports:
-      - "27017:27017"
+      - 27017:27017
     volumes:
       - mongo:/data/db
     networks:
