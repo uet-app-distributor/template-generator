@@ -10,6 +10,7 @@ from settings import (
     COMPOSE_TEMPLATE,
     IMAGE_REGISTRY_USER,
     UAD_DOMAIN_NAME,
+    REVERSE_PROXY_TEMPLATE,
 )
 
 
@@ -76,14 +77,23 @@ class TemplateGenerator:
                 "enable_database": enable_database,
                 "app_name": app_name,
                 "app_owner": app_owner,
-                "env_vars": self.app_config["frontend"]["env"] if enable_frontend else "",
-                "database_type": self.app_config["database"]["image"] if enable_database else ""
+                "env_vars": self.app_config["frontend"]["env"]
+                if enable_frontend
+                else "",
+                "database_type": self.app_config["database"]["image"]
+                if enable_database
+                else "",
+            }
+        elif template == REVERSE_PROXY_TEMPLATE:
+            return {
+                "frontend_domain_name": f"{app_owner}-{app_name}.{UAD_DOMAIN_NAME}",
+                "backend_domain_name": f"api-{app_owner}-{app_name}.{UAD_DOMAIN_NAME}",
             }
         else:
             raise ValueError("Invalid template_type")
 
-    def _save_output_to_file(self, content, file_name):
-        with open(f"output-{file_name}", "w") as file:
+    def _save_output_to_file(self, content, file_name, prefix="output-"):
+        with open(f"{prefix}{file_name}", "w") as file:
             file.write(content)
 
     def _generate_dockerfile(self, service_type):
@@ -133,3 +143,9 @@ class TemplateGenerator:
         template_args = self._prepare_template_args(COMPOSE_TEMPLATE)
         dockerfile = template.render(template_args)
         self._save_output_to_file(dockerfile, "compose.yaml")
+
+    def generate_reverse_proxy_nginx_config(self):
+        template = self.template_env.get_template(REVERSE_PROXY_TEMPLATE)
+        template_args = self._prepare_template_args(REVERSE_PROXY_TEMPLATE)
+        nginx_config = template.render(template_args)
+        self._save_output_to_file(nginx_config, "nginx.conf", prefix="")

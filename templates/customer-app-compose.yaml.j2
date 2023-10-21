@@ -1,27 +1,46 @@
 version: '3.8'
 
 services:
-  {%- if enable_frontend %}
+  proxy:
+    container_name: proxy
+    image: nginx:1.24
+    ports:
+      - 80:80
+    volumes:
+      - type: bind
+        source: /opt/nginx.conf
+        target: /etc/nginx/nginx.conf
+    networks:
+      - customer_app
+
+  {% if enable_frontend -%}
   frontend:
+    container_name: frontend
     image: {{ registry_user }}/fe-{{ app_name }}:latest
     ports:
-      - "80:80"
+      - 127.0.0.1:80
     environment:
       {% for key, value in env_vars.items() -%}
       {{ key }}: {{ value }}
       {% endfor -%}
+    networks:
+      - customer_app
   {% endif %}
 
   {%- if enable_backend %}
   backend:
+    container_name: backend
     image: {{ registry_user }}/be-{{ app_name }}:latest
     ports:
-      - "8080:8080"
+      - 127.0.0.1:8080
+    networks:
+      - customer_app
   {% endif %}
 
   {%- if enable_database %}
   {%- if database_type == "postgres" %}
   database:
+    container_name: database
     image: postgres:latest
     environment:
       POSTGRES_DB: {{ app_name }}
@@ -31,6 +50,8 @@ services:
       - "5432:5432"
     volumes:
       - postgres:/var/lib/postgresql/data
+    networks:
+      - customer_app
 
 volumes:
   postgres:
@@ -44,8 +65,13 @@ volumes:
       - "27017:27017"
     volumes:
       - mongo:/data/db
+    networks:
+      - customer_app
 
 volumes:
   mongo:
   {% endif %}
   {% endif %}
+
+networks:
+  customer_app:

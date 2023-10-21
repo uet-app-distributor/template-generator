@@ -62,3 +62,4 @@ if __name__ == "__main__":
 
     if options.compose:
         generator.generate_compose_file()
+        generator.generate_reverse_proxy_nginx_config()
