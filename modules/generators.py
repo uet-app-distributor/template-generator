@@ -142,10 +142,10 @@ class TemplateGenerator:
         template = self.template_env.get_template(COMPOSE_TEMPLATE)
         template_args = self._prepare_template_args(COMPOSE_TEMPLATE)
         dockerfile = template.render(template_args)
-        self._save_output_to_file(dockerfile, "compose.yaml", prefix="")
+        self._save_output_to_file(dockerfile, "compose.yaml")
 
     def generate_reverse_proxy_nginx_config(self):
         template = self.template_env.get_template(REVERSE_PROXY_TEMPLATE)
         template_args = self._prepare_template_args(REVERSE_PROXY_TEMPLATE)
         nginx_config = template.render(template_args)
-        self._save_output_to_file(nginx_config, "nginx.conf", prefix="")
+        self._save_output_to_file(nginx_config, "nginx.conf")
