@@ -7,6 +7,7 @@ from settings import (
     FE_MANIFEST_TEMPLATE,
     BE_MANIFEST_TEMPLATE,
     INITIAL_JOB_TEMPLATE,
+    SHARED_RESOURCES_TEMPLATE,
     COMPOSE_TEMPLATE,
     IMAGE_REGISTRY_USER,
     UAD_DOMAIN_NAME,
@@ -26,12 +27,15 @@ class TemplateGenerator:
         self.template_env = template_env
         self.app_config = app_config
         self.output_dockerfile = output_dockerfile
+        self.output_shared_resources = output_shared_resources
         self.output_initial_job = output_initial_job
         self.output_manifest = output_manifest
 
     def _prepare_template_args(self, template):
         app_owner = self.app_config["app_owner"]
         app_name = self.app_config["app_name"]
+        app_id = f"{app_owner}-{app_name}"
+
         enable_frontend = "frontend" in self.app_config
         enable_backend = "backend" in self.app_config
         enable_database = "database" in self.app_config
@@ -86,8 +90,12 @@ class TemplateGenerator:
             }
         elif template == REVERSE_PROXY_TEMPLATE:
             return {
-                "frontend_domain_name": f"{app_owner}-{app_name}.{UAD_DOMAIN_NAME}",
-                "backend_domain_name": f"api-{app_owner}-{app_name}.{UAD_DOMAIN_NAME}",
+                "frontend_domain_name": f"{app_id}.{UAD_DOMAIN_NAME}",
+                "backend_domain_name": f"api-{app_id}.{UAD_DOMAIN_NAME}",
+            }
+        elif template == SHARED_RESOURCES_TEMPLATE:
+            return {
+                "app_id": f"{app_id}.{UAD_DOMAIN_NAME}",
             }
         else:
             raise ValueError("Invalid template_type")
@@ -116,6 +124,12 @@ class TemplateGenerator:
         job = template.render(template_args)
         self._save_output_to_file(job, self.output_initial_job)
 
+    def _generate_shared_resources(self):
+        template = self.template_env.get_template(SHARED_RESOURCES_TEMPLATE)
+        template_args = self._prepare_template_args(SHARED_RESOURCES_TEMPLATE)
+        job = template.render(template_args)
+        self._save_output_to_file(job, self.output_shared_resources)
+
     def _generate_manifest(self, service_type):
         manifest_template = (
             FE_MANIFEST_TEMPLATE
@@ -129,6 +143,7 @@ class TemplateGenerator:
 
     def generate_customer_app_files(self):
         self._generate_initial_job()
+        self._generate_shared_resources()
 
         if FE_SERVICE_TYPE in self.app_config:
             self._generate_dockerfile(FE_SERVICE_TYPE)

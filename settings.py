@@ -12,6 +12,7 @@ REVERSE_PROXY_TEMPLATE = "customer-app-reverse-proxy.conf.j2"
 COMPOSE_TEMPLATE = "customer-app-compose.yaml.j2"
 BE_MANIFEST_TEMPLATE = "be-customer-app-deployment.yaml.j2"
 FE_MANIFEST_TEMPLATE = "fe-customer-app-deployment.yaml.j2"
+SHARED_RESOURCES_TEMPLATE = "customer-app-shared-resources.yaml.j2"
 
 LOG_LEVEL = "INFO"
 LOG_FORMAT = "%(asctime)s %(levelname)s %(name)s: %(message)s"
