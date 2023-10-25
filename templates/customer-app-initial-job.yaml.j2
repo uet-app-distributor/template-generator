@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   namespace: uet-app-distributor
-  name: customer-app-initial-job-{{ db_new_user }}-{{ app_name }}
+  name: customer-app-initial-job-{{ app_owner }}-{{ app_name }}
 spec:
   ttlSecondsAfterFinished: 300
   backoffLimit: 2
@@ -21,9 +21,9 @@ spec:
             - name: DB_PORT
               value: "5432"
             - name: DB_NEW_USER
-              value: {{ db_new_user|replace("-", "") }}
+              value: {{ app_owner|replace("-", "") }}
             - name: DB_NEW_USER_PASSWORD
-              value: {{ db_new_user_password|replace("-", "") }}
+              value: {{ app_owner|replace("-", "") }}
             - name: CF_CUSTOMER_APP_CNAME_RECORD
               value: {{ app_name }}
             - name: CF_API_KEY

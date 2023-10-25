@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   labels:
     customer_app: {{ app_name }}
-  name: be-{{ app_name }}
+  name: {{ app_name }}-backend
   namespace: {{ app_id }}
 spec:
   replicas: 1
@@ -19,6 +19,10 @@ spec:
       containers:
       - name: be-{{ app_name }}
         image: {{ registry_user }}/be-{{ app_name }}:latest
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
         env:
           - name: DB_NAME
             value: {{ app_owner }}
@@ -27,9 +31,9 @@ spec:
           - name: DB_PORT
             value: "5432"
           - name: DB_USER
-            value: {{ app_owner }}
+            value: {{ app_owner|replace("-", "") }}
           - name: DB_PASSWORD
-            value: {{ app_owner }}
+            value: {{ app_owner|replace("-", "") }}
 ---
 apiVersion: v1
 kind: Service
@@ -37,7 +41,7 @@ metadata:
   labels:
     customer_app: {{ app_name }}
   name: be-{{ app_name }}-svc
-  namespace: {{ app_name }}
+  namespace: {{ app_id }}
 spec:
   ports:
     - name: be-{{ app_name }}
@@ -52,10 +56,10 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: be-{{ app_name }}-ingress
-  namespace: {{ app_name }}
+  namespace: {{ app_id }}
 spec:
   rules:
-    - host: api-{{ app_name }}.{{ uad_domain }}
+    - host: api-{{ app_id }}.{{ uad_domain }}
       http:
         paths:
           - path: /

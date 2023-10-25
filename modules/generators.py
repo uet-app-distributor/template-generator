@@ -27,7 +27,6 @@ class TemplateGenerator:
         self.template_env = template_env
         self.app_config = app_config
         self.output_dockerfile = output_dockerfile
-        self.output_shared_resources = output_shared_resources
         self.output_initial_job = output_initial_job
         self.output_manifest = output_manifest
 
@@ -54,9 +53,8 @@ class TemplateGenerator:
         elif template == INITIAL_JOB_TEMPLATE:
             return {
                 "app_name": self.app_config["app_name"],
+                "app_owner": app_owner,
                 "registry_user": IMAGE_REGISTRY_USER,
-                "db_new_user": app_owner,
-                "db_new_user_password": app_owner,
             }
         elif template == BE_MANIFEST_TEMPLATE:
             return {
@@ -64,6 +62,7 @@ class TemplateGenerator:
                 "registry_user": IMAGE_REGISTRY_USER,
                 "app_name": app_name,
                 "app_owner": app_owner,
+                "app_id": app_id,
             }
         elif template == FE_MANIFEST_TEMPLATE:
             return {
@@ -71,6 +70,7 @@ class TemplateGenerator:
                 "registry_user": IMAGE_REGISTRY_USER,
                 "app_name": app_name,
                 "app_owner": app_owner,
+                "app_id": app_id,
                 "frontend_env_vars": self.app_config["frontend"]["env"],
             }
         elif template == COMPOSE_TEMPLATE:
@@ -128,7 +128,7 @@ class TemplateGenerator:
         template = self.template_env.get_template(SHARED_RESOURCES_TEMPLATE)
         template_args = self._prepare_template_args(SHARED_RESOURCES_TEMPLATE)
         job = template.render(template_args)
-        self._save_output_to_file(job, self.output_shared_resources)
+        self._save_output_to_file(job, "shared-resources.yaml")
 
     def _generate_manifest(self, service_type):
         manifest_template = (
@@ -139,7 +139,7 @@ class TemplateGenerator:
         template = self.template_env.get_template(manifest_template)
         template_args = self._prepare_template_args(manifest_template)
         manifest = template.render(template_args)
-        self._save_output_to_file(manifest, f"{service_type}-{self.output_manifest}")
+        self._save_output_to_file(manifest, f"{service_type}-{self.output_manifest}.yaml")
 
     def generate_customer_app_files(self):
         self._generate_initial_job()
