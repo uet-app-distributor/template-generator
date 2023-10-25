@@ -95,7 +95,7 @@ class TemplateGenerator:
             }
         elif template == SHARED_RESOURCES_TEMPLATE:
             return {
-                "app_id": f"{app_id}.{UAD_DOMAIN_NAME}",
+                "app_id": f"{app_id}",
             }
         else:
             raise ValueError("Invalid template_type")

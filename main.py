@@ -43,6 +43,7 @@ if __name__ == "__main__":
         "--compose",
         type=bool,
         choices=[True, False],
+        default=False,
         help="Specify generating compose.yml file",
     )
 
