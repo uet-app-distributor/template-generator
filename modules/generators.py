@@ -139,7 +139,7 @@ class TemplateGenerator:
         template = self.template_env.get_template(manifest_template)
         template_args = self._prepare_template_args(manifest_template)
         manifest = template.render(template_args)
-        self._save_output_to_file(manifest, f"{service_type}-{self.output_manifest}.yaml")
+        self._save_output_to_file(manifest, f"{service_type}-{self.output_manifest}")
 
     def generate_customer_app_files(self):
         self._generate_initial_job()
