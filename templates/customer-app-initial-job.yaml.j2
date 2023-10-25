@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   namespace: uet-app-distributor
-  name: customer-app-initial-job-{{ app_owner }}-{{ app_name }}
+  name: customer-app-initial-job-{{ app_id }}
 spec:
   ttlSecondsAfterFinished: 300
   backoffLimit: 2
@@ -25,7 +25,7 @@ spec:
             - name: DB_NEW_USER_PASSWORD
               value: {{ app_owner|replace("-", "") }}
             - name: CF_CUSTOMER_APP_CNAME_RECORD
-              value: {{ app_name }}
+              value: {{ app_id }}
             - name: CF_API_KEY
               valueFrom:
                 secretKeyRef:

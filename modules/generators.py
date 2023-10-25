@@ -52,8 +52,9 @@ class TemplateGenerator:
             }
         elif template == INITIAL_JOB_TEMPLATE:
             return {
-                "app_name": self.app_config["app_name"],
+                "app_name": app_name,
                 "app_owner": app_owner,
+                "app_id": app_id,
                 "registry_user": IMAGE_REGISTRY_USER,
             }
         elif template == BE_MANIFEST_TEMPLATE:
