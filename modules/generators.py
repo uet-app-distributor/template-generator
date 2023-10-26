@@ -82,6 +82,7 @@ class TemplateGenerator:
                 "enable_database": enable_database,
                 "app_name": app_name,
                 "app_owner": app_owner,
+                "app_id": app_id,
                 "env_vars": self.app_config["frontend"]["env"]
                 if enable_frontend
                 else "",
