@@ -21,8 +21,8 @@ spec:
         image: {{ registry_user }}/be-{{ app_name }}:latest
         resources:
           limits:
-            memory: "512Mi"
-            cpu: "500m"
+            memory: "256Mi"
+            cpu: "50m"
         env:
           - name: DB_NAME
             value: {{ app_owner }}
