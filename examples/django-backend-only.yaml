@@ -1,0 +1,7 @@
+---
+app_owner: thai-nm
+app_name: django-only
+description: A sample Django web server
+backend:
+  image: django
+  version: 3.11.6

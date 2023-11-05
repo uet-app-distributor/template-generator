@@ -5,7 +5,10 @@ BE_SERVICE_TYPE = "backend"
 
 UAD_DOMAIN_NAME = "uet-app-distributor.site"
 
-BE_DOCKERFILE_TEMPLATES = {"node": "be-nodejs-dockerfile.j2"}
+BE_DOCKERFILE_TEMPLATES = {
+    "node": "be-nodejs-dockerfile.j2",
+    "django": "be-django-dockerfile.j2",
+}
 FE_DOCKERFILE_TEMPLATES = {"node": "fe-nodejs-dockerfile.j2"}
 INITIAL_JOB_TEMPLATE = "customer-app-initial-job.yaml.j2"
 REVERSE_PROXY_TEMPLATE = "customer-app-reverse-proxy.conf.j2"
