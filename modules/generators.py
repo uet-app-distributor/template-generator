@@ -64,6 +64,7 @@ class TemplateGenerator:
                 "app_name": app_name,
                 "app_owner": app_owner,
                 "app_id": app_id,
+                "backend_env_vars": self.app_config["backend"]["env"],
             }
         elif template == FE_MANIFEST_TEMPLATE:
             return {

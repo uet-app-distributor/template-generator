@@ -34,6 +34,10 @@ spec:
             value: {{ app_owner|replace("-", "") }}
           - name: DB_PASSWORD
             value: {{ app_owner|replace("-", "") }}
+        {%- for key, value in backend_env_vars.items() %}
+          - name: {{ key }}
+            value: "{{ value }}"
+        {%- endfor %}
 ---
 apiVersion: v1
 kind: Service

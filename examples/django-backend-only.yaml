@@ -5,3 +5,6 @@ description: A sample Django web server
 backend:
   image: django
   version: 3.11.6
+  env:
+    env: "dev"
+    app: "django"
